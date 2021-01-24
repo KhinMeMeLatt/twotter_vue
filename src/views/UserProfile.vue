@@ -23,28 +23,23 @@
 </template>
 
 <script>
-import { reactive } from 'vue';
-import TwootItem from "./TwootItem";
-import CreateTwootPanel from "../components/CreateTwootPanel";
+import { reactive, computed } from 'vue';
+import { useRoute } from 'vue-router';
+import { users } from '../assets/users';
+import TwootItem from "../components/TwootItem";
+import CreateTwootPanel from "@/components/CreateTwootPanel";
 
 export default {
   name: "UserProfile",
   components: { CreateTwootPanel, TwootItem },
   setup() {
+    const route = useRoute();
+    const userId = computed(() => route.params.userId);
+
     const state = reactive({
       followers: 0,
-      user: {
-        id: 1,
-        username: "JohnDoe",
-        firstName: "John",
-        lastName: "Doe",
-        email: "john@gmail.com",
-        isAdmin: true,
-        twoots: [
-          { id: 1, content: "Twotter is Amazing!" },
-          { id: 2, content: "Don't forget to subscribe to me! " },
-        ],
-      },
+      //array starts at 0 and userId starts at 1. That's why we extract data from userId-1
+      user: users[userId.value - 1] || users[0] //it will show userID 1 if some issues occur
     })
     
     function addTwoot(twoot) {
@@ -53,24 +48,25 @@ export default {
 
     return {
       state,
-      addTwoot
+      addTwoot,
+      userId
     }
   },
-  watch: {
-    followers(newFollowerCount, oldFollowerCount) {
-      if (oldFollowerCount < newFollowerCount) {
-        console.log("${this.user.username} has gained a follower!");
-      }
-    },
-  },
-  computed: {
-    fullName() {
-      return "${this.user.firstName} ${this.user.lastName}";
-    },
-  },
-  mounted() {
-    //this.followUser();
-  },
+  // watch: {
+  //   followers(newFollowerCount, oldFollowerCount) {
+  //     if (oldFollowerCount < newFollowerCount) {
+  //       console.log("${this.user.username} has gained a follower!");
+  //     }
+  //   },
+  // },
+  // computed: {
+  //   fullName() {
+  //     return "${this.user.firstName} ${this.user.lastName}";
+  //   },
+  // },
+  // mounted() {
+  //   //this.followUser();
+  // },
 };
 </script>
 
