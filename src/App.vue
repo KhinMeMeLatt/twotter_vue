@@ -6,7 +6,7 @@
           Twotter
         </div>
       </router-link>
-      <div class="navigation__user">
+      <div class="navigation__user" v-if="user">
         {{ user.username }}
       </div>
     </nav>
