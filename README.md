@@ -1,5 +1,7 @@
 # twotter
 
+This repository is created according to [Learn Vue 3 for Beginners](https://www.youtube.com/watch?v=ZqgiuPt5QZo).
+
 ## Project setup
 ```
 npm install
